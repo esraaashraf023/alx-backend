@@ -1,28 +1,20 @@
 #!/usr/bin/env python3
-"""
-task1.
-"""
+"""task1"""
+
 from collections import OrderedDict
 from base_caching import BaseCaching
 
 
 class FIFOCache(BaseCaching):
-    """
-    Args:
-        BaseCaching (_type_): _description_
-    """
+    """FIFOCache BaseCaching"""
     def __init__(self):
-        """init..
-        """
+        """ init.."""
+
         super().__init__()
         self.cache_data = OrderedDict()
 
     def put(self, key, item):
-        """
-        Args:
-            key (_type_): _description_
-            item (_type_): _description_
-        """
+        """function add item"""
         if key and item:
             self.cache_data[key] = item
             if len(self.cache_data) > BaseCaching.MAX_ITEMS:
@@ -32,11 +24,5 @@ class FIFOCache(BaseCaching):
             return
 
     def get(self, key):
-        """
-        Args:
-            key (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
+        """ get item """
         return self.cache_data.get(key, None)
