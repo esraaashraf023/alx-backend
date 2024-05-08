@@ -1,28 +1,38 @@
-#!/usr/bin/env python3
-"""task1"""
+#!/usr/bin/python3
+"""FIFO caching"""
+from typing import Any
 
-from collections import OrderedDict
 from base_caching import BaseCaching
 
 
 class FIFOCache(BaseCaching):
-    """FIFOCache BaseCaching"""
-    def __init__(self):
-        """ init.."""
+    """ FIFO caching system"""
 
+    def __init__(self) -> None:
+        """ Initialize of FIFO and call the base"""
         super().__init__()
-        self.cache_data = OrderedDict()
+        self.queue = []
 
-    def put(self, key, item):
-        """function add item"""
-        if key and item:
-            self.cache_data[key] = item
-            if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-                first_key, _ = self.cache_data.popitem(False)
-                print("DISCARD:", first_key)
-        else:
+    def put(self, key, item) -> None:
+        """ Store the data in FIFO policy"""
+        if key is None or item is None:
             return
 
-    def get(self, key):
-        """ get item """
+        if key in self.queue:
+            self.cache_data[key] = item
+
+            self.queue.remove(key)
+            self.queue.append(key)
+            return
+
+        if len(self.cache_data) >= self.MAX_ITEMS:
+            discard_element = self.queue.pop(0)
+            self.cache_data.pop(discard_element)
+            print(f'DISCARD: {discard_element}')
+
+        self.queue.append(key)
+        self.cache_data[key] = item
+
+    def get(self, key) -> Any:
+        """ Get data from a FIFO cache system"""
         return self.cache_data.get(key, None)
