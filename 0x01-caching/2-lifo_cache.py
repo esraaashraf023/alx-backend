@@ -34,5 +34,5 @@ class LIFOCache(BaseCaching):
         self.cache_data[key] = item
 
     def get(self, key) -> Any:
-        """ Get data"""
+        """ Get data from a LIFO cache system"""
         return self.cache_data.get(key, None)
